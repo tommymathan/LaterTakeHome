@@ -1,5 +1,5 @@
 import { Router, RequestHandler } from 'express';
-
+import { db } from '../db/db';
 const router = Router();
 
 interface AppendBody {
@@ -62,6 +62,13 @@ const appendParameters: RequestHandler<{}, any, AppendBody> = (req, res): void =
       urlObj.searchParams.set(key, value);
     }
 
+    const updatedUrl = urlObj.toString();
+
+    // Persist to database
+    db.prepare(
+      'INSERT INTO links (original_url, parameters, updated_url) VALUES (?, ?, ?)'
+    ).run(url, JSON.stringify(params), updatedUrl);
+
     res.json({
       originalUrl: url,
       parameters: params,
@@ -76,7 +83,7 @@ const appendParameters: RequestHandler<{}, any, AppendBody> = (req, res): void =
  * @openapi
  * /links:
  *   get:
- *     summary: List all processed links (stubbed for now)
+ *     summary: List all processed links
  *     responses:
  *       '200':
  *         description: Array of stored links
@@ -91,7 +98,10 @@ const appendParameters: RequestHandler<{}, any, AppendBody> = (req, res): void =
  *                     type: object
  */
 const getLinks: RequestHandler = (_req, res): void => {
-  res.json({ links: [] });
+    const rows = db
+    .prepare('SELECT * FROM links ORDER BY created_at DESC')
+    .all();
+    res.json({ links: rows });
 };
 
 /* ----- Register routes ----- */
