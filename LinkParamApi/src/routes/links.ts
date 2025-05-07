@@ -59,6 +59,16 @@ const appendParameters: RequestHandler<{}, any, AppendBody> = (req, res): void =
         res.status(400).json({ error: 'All param values must be strings' });
         return;
       }
+      
+      // Validate that parameter keys don't start with ampersand
+      if (key.startsWith('&')) {
+        res.status(400).json({ 
+          error: 'Parameter keys should not start with &',
+          invalidKey: key
+        });
+        return;
+      }
+      
       urlObj.searchParams.set(key, value);
     }
 
