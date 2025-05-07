@@ -1,43 +1,65 @@
-# LaterTakeHome
+# URL Appender
 
-So I will give general overview of how this project works.
+A TypeScript project for appending parameters to URLs, with a Node.js backend and simple frontend interface.
 
-The Project is written completely in typescript, and using node.js in the backend with express as the middleware. 
-Sqlite was chosen as the db just for convenices, and the package used to interact with the db is better-sqlite3.
+## Project Overview
 
-The Project Structure is as follows. 
+This project is written entirely in TypeScript, using:
+- **Backend**: Node.js with Express middleware
+- **Database**: SQLite (using better-sqlite3 package)
+- **Documentation**: Self-documented with OpenAPI/Swagger
 
-Src (Contains all backend code)
-    Index.ts (root express app)
-    DB (contains database code)
-    docs(contains a swagger.ts for config)
-        This project is also slight self documented in way , has open api documentation.
-    Routes (contains routes)
-        links.ts (contains get all links endpoint, and appendParameters) 
+## Project Structure
 
-#Relevant commands 
-To run the api.
-Build the code -  npm run build 
-Run the code - npm run start
+### Backend (`/src`)
+- `index.ts` - Root Express application
+- `/db` - Database code
+- `/docs` - Contains `swagger.ts` for API documentation
+- `/routes` - API routes
+  - `links.ts` - Endpoints for getting all links and appending parameters
 
-for simplicities sake the ui is very simple, does not use any frontend frameworks, just vanilla js, and tailwind for css. 
-ui
-    index.html (contains all ui code)
-    app.ts (contains minimal javascript)
+### Frontend
+Simple UI built with:
+- Vanilla JavaScript
+- Tailwind CSS
+- Main files:
+  - `index.html` - Contains all UI markup
+  - `app.ts` - Minimal JavaScript functionality
 
-#Relevant commands 
-To run the ui.
-Compile the ts code to javascript - npm run compile
-run the ui - npm run serve 
+## Running The Application
 
+### Backend API
 
-#for bonus 
+```bash
+# Build the code
+npm run build
 
-I have also included a dockerfile for the api
+# Run the API server
+npm run start
+```
 
-to create a docker image , bring your terminal to the root folder.
+### Frontend UI
 
-docker build -t "image name" .
+```bash
+# Compile TypeScript to JavaScript
+npm run compile
 
-example 
+# Serve the UI
+npm run serve
+```
+
+## Docker Support
+
+A Dockerfile is included for containerizing the API.
+
+```bash
+# Build a Docker image
+docker build -t "image-name" .
+
+# Example
 docker build -t "LinkAppendTestEnv" .
+```
+
+## API Documentation
+
+The API is documented using OpenAPI/Swagger, making it easy to explore the available endpoints and functionality.
