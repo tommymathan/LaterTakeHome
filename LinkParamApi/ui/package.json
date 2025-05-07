@@ -1,0 +1,12 @@
+{
+    "name": "linkparam-ui",
+    "version": "1.0.0",
+    "scripts": {
+      "compile": "tsc",          
+      "serve":   "http-server . -c-1 -o -p 8080"
+    },
+    "devDependencies": {
+      "typescript": "^5.0.0",
+      "http-server": "^14.1.1"
+    }
+  }
