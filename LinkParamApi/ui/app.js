@@ -8,10 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+// Simple toast notification function
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.remove('opacity-0', 'invisible');
+    toast.classList.add('opacity-100');
+    setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'invisible');
+    }, 3000);
+}
 function fetchLinks() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const resp = yield fetch('http://localhost:3000/links');
+            if (!resp.ok)
+                throw new Error(`HTTP error! Status: ${resp.status}`);
             const data = yield resp.json();
             const list = document.getElementById('links-list');
             list.innerHTML = '';
@@ -26,6 +39,7 @@ function fetchLinks() {
         }
         catch (e) {
             console.error('Error fetching links', e);
+            showToast('The service is currently down. Please try again later.');
         }
     });
 }
@@ -74,6 +88,8 @@ function appendParameters(event) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url, params })
             });
+            if (!res.ok)
+                throw new Error(`HTTP error! Status: ${res.status}`);
             const data = yield res.json();
             const resultDiv = document.getElementById('result');
             const resultPre = document.getElementById('result-json');
@@ -83,6 +99,10 @@ function appendParameters(event) {
         }
         catch (e) {
             console.error('Error appending parameters', e);
+            showToast('The service is currently down. Please try again later.');
+            // Hide the result div if there was an error
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.add('hidden');
         }
     });
 }
