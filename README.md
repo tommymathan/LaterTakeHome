@@ -1,20 +1,20 @@
 # URL Appender
 
-A TypeScript project for appending parameters to URLs, with a Node.js backend and simple frontend interface.
+So this readme will give a general overview of the application
 
 ## Project Overview
 
 This project is written entirely in TypeScript, using:
 - **Backend**: Node.js with Express middleware
 - **Database**: SQLite (using better-sqlite3 package)
-- **Documentation**: Self-documented with OpenAPI/Swagger
+- **Documentation**: Self-documented *ish with OpenAPI/Swagger
 
 ## Project Structure
 
 ### Backend (`/src`)
 - `index.ts` - Root Express application
 - `/db` - Database code
-- `/docs` - Contains `swagger.ts` for API documentation
+- `/docs` - Contains `swagger.ts` for Open API configuration
 - `/routes` - API routes
   - `links.ts` - Endpoints for getting all links and appending parameters
 
@@ -63,3 +63,5 @@ docker build -t "LinkAppendTestEnv" .
 ## API Documentation
 
 The API is documented using OpenAPI/Swagger, making it easy to explore the available endpoints and functionality.
+
+when running the backend, that can be reached at http://localhost:3000/docs
