@@ -5,9 +5,24 @@ interface Link {
 
 type Params = Record<string, string>;
 
+// Simple toast notification function
+function showToast(message: string): void {
+  const toast = document.getElementById('toast')!;
+  toast.textContent = message;
+  toast.classList.remove('opacity-0', 'invisible');
+  toast.classList.add('opacity-100');
+  
+  setTimeout(() => {
+    toast.classList.remove('opacity-100');
+    toast.classList.add('opacity-0', 'invisible');
+  }, 3000);
+}
+
 async function fetchLinks(): Promise<void> {
   try {
     const resp = await fetch('http://localhost:3000/links');
+    if (!resp.ok) throw new Error(`HTTP error! Status: ${resp.status}`);
+    
     const data: { links: Link[] } = await resp.json();
     const list = document.getElementById('links-list')!;
     list.innerHTML = '';
@@ -22,6 +37,7 @@ async function fetchLinks(): Promise<void> {
     });
   } catch (e) {
     console.error('Error fetching links', e);
+    showToast('The service is currently down. Please try again later.');
   }
 }
 
@@ -81,6 +97,9 @@ async function appendParameters(event: Event): Promise<void> {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url, params })
     });
+    
+    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+    
     const data = await res.json();
 
     const resultDiv = document.getElementById('result')!;
@@ -91,6 +110,11 @@ async function appendParameters(event: Event): Promise<void> {
     await fetchLinks();
   } catch (e) {
     console.error('Error appending parameters', e);
+    showToast('The service is currently down. Please try again later.');
+    
+    // Hide the result div if there was an error
+    const resultDiv = document.getElementById('result')!;
+    resultDiv.classList.add('hidden');
   }
 }
 
